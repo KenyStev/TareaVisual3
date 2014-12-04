@@ -21,4 +21,6 @@ public class Prestamo {
         cuotasRestantes=cantCuotas;
         cuotaMensual = montoTotal/cantCuotas;
     }
+    
+    
 }
