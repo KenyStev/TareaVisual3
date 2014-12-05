@@ -11,7 +11,7 @@ package Logica;
  */
 public class Prestamo {
     private String nombre;
-    private double montoPrestamo, saldo, cuotaMensual;
+    private double montoPrestamo, saldo, cuotaMensual, montoPago;
     private int cuotasRestantes;
 
     public Prestamo(String name, double montoTotal, int cantCuotas) {
@@ -25,8 +25,8 @@ public class Prestamo {
     public boolean pagarCuota(int cant){
         boolean pagado = false;
         if(cant<=cuotasRestantes){
-            double montoAPagar = cant*cuotaMensual;
-            saldo-=montoAPagar;
+            montoPago = cant*cuotaMensual;
+            saldo-=montoPago;
             cuotasRestantes-=cant;
             pagado = true;
         }
@@ -34,7 +34,7 @@ public class Prestamo {
     }
     
     public String pagarTodo(){
-        String msj = "Se a pagado: "+cuotasRestantes+" con un valor de: "+(cuotasRestantes*cuotaMensual);
+        String msj = "Se a pagado: "+cuotasRestantes+" Cuotas con un valor de: Lps. "+(cuotasRestantes*cuotaMensual);
         cuotasRestantes=0;
         saldo=0;
         return msj;
@@ -48,8 +48,13 @@ public class Prestamo {
         return saldo;
     }
 
+    public double getMontoPago() {
+        return montoPago;
+    }
+    
     @Override
     public String toString() {
-        return "Nombre: " + nombre + "\nMonto: " + montoPrestamo + "\nSaldo: " + saldo;
+        return "Nombre: " + nombre + "\nMonto: " + montoPrestamo + "\nSaldo: " + saldo 
+                +"\nCuotas Restantes:" + cuotasRestantes;
     }
 }

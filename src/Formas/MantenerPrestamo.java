@@ -5,6 +5,7 @@
  */
 package Formas;
 import Logica.Prestamo;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,10 +16,18 @@ public class MantenerPrestamo extends javax.swing.JFrame {
 
     /**
      * Creates new form MantenerPrestamo
+     * @param prestamo
      */
     public MantenerPrestamo(Prestamo prestamo) {
         initComponents();
         this.prestamo = prestamo;
+        txtInfo.setText(prestamo.toString());
+    }
+    
+    private void prestamoPagado(){
+        JOptionPane.showMessageDialog(this, "Se ha pagado el prestamo!", "Prestamo Pagado", JOptionPane.INFORMATION_MESSAGE);
+                 this.setVisible(false);
+                new CrearPrestamo().setVisible(true);
     }
 
     /**
@@ -30,21 +39,93 @@ public class MantenerPrestamo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtInfo = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Mantenimiento del Préstamo");
+
+        jButton1.setText("Pagar Cuota");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Pagar Todo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        txtInfo.setColumns(20);
+        txtInfo.setRows(5);
+        jScrollPane1.setViewportView(txtInfo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jButton1)
+                        .addGap(64, 64, 64)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String x= JOptionPane.showInputDialog(this, "Cantidad de Cuotas a Pagar", "Cantidad de Cuotas", JOptionPane.QUESTION_MESSAGE);
+        int cuotas = Integer.parseInt(x);
+        if(prestamo.pagarCuota(cuotas)){
+            JOptionPane.showMessageDialog(this,
+                    "Se ha pagado Lps. "+prestamo.getMontoPago()+" al prestamo",
+                    "Pagado",
+                    JOptionPane.PLAIN_MESSAGE);
+            txtInfo.setText(prestamo.toString());
+            if(prestamo.getSaldo()==0){
+                prestamoPagado();
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Cuotas mayores a las restantes!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Realmente desea pagar todo el prestamo?",
+                "Confirmacion",
+                JOptionPane.OK_CANCEL_OPTION);
+        if(confirm == JOptionPane.OK_OPTION){
+            JOptionPane.showMessageDialog(this, prestamo.pagarTodo(), "Pagado", JOptionPane.INFORMATION_MESSAGE);
+            prestamoPagado();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -82,5 +163,9 @@ public class MantenerPrestamo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtInfo;
     // End of variables declaration//GEN-END:variables
 }
