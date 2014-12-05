@@ -22,5 +22,34 @@ public class Prestamo {
         cuotaMensual = montoTotal/cantCuotas;
     }
     
+    public boolean pagarCuota(int cant){
+        boolean pagado = false;
+        if(cant<=cuotasRestantes){
+            double montoAPagar = cant*cuotaMensual;
+            saldo-=montoAPagar;
+            cuotasRestantes-=cant;
+            pagado = true;
+        }
+        return pagado;
+    }
     
+    public String pagarTodo(){
+        String msj = "Se a pagado: "+cuotasRestantes+" con un valor de: "+(cuotasRestantes*cuotaMensual);
+        cuotasRestantes=0;
+        saldo=0;
+        return msj;
+    }
+    
+    public int getCuotas(){
+        return cuotasRestantes;
+    }
+    
+    public double getSaldo(){
+        return saldo;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre + "\nMonto: " + montoPrestamo + "\nSaldo: " + saldo;
+    }
 }
